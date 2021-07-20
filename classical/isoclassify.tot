@@ -1,0 +1,4 @@
+#!/bin/sh
+mkdir -p output/gammapav; isoclassify run direct gammapav --outdir output/gammapav --csv isoclassify.csv --plot save-png &> output/gammapav/output.log
+mkdir -p output/zetatuc; isoclassify run direct zetatuc --outdir output/zetatuc --csv isoclassify.csv --plot save-png &> output/zetatuc/output.log
+mkdir -p output/pimen; isoclassify run direct pimen --outdir output/pimen --csv isoclassify.csv --plot save-png &> output/pimen/output.log

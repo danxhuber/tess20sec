@@ -1,0 +1,42 @@
+id_starname gammapav
+dust: none
+teff 6168 133
+logg 4.4 0.01
+feh -0.66 0.09
+lum -99 0
+gmag -99 0
+rmag -99 0
+imag -99 0
+zmag -99 0
+jmag -99 0
+hmag -99 0
+kmag -99 0
+gamag -99 0
+bpmag -99 0
+rpmag -99 0
+parallax 0.10801 0.000106
+bmag -99 0
+vmag -99 0
+btmag -99 0
+vtmag 4.276 0.009000000000000001
+numax -99 0
+dnu -99 0
+dmag -99.0 -99.0
+ra 321.61
+dec -65.37
+Fitting for reddening.
+using max distance: 9.4
+using min distance: 9.2
+   
+teff(K): 6168 +/- 133
+dis(pc): 9.25840458404584 + 0.008996409964099783 - 0.009004090040900081
+av(mag): 0.0 + 0.0 - 0.0
+rad(rsun): 1.05995409399332 + 0.04908752001252048 - 0.04630979523598544
+lum(lsun): 1.460381692264693 + 0.04062865101353008 - 0.039178328795453465
+mabs( vtmag ): 4.443339636923827 + 0.029525383112913417 - 0.029793262608763804
+fbol(cgs): 5.450754925810345e-07 + 1.5097059864067728e-08 - 1.4583534433362302e-08
+mass(msun): 0.0 + 0.0 - 0.0
+density(rhosun): 0.0 + 0.0 - 0.0
+-----
+created output/gammapav/posteriors.png
+created output/gammapav/output.csv
