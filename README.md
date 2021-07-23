@@ -10,4 +10,7 @@ seismo/: Asteroseismic analysis of solar analogs (Section 3.2-3.5)
 
 transit/: Joint transit and RV fit of pi Men c (Section 4). 
 
-See individual directories for scripts to reproduce figures. Note that Figure 10-12 requires the trace output of the joint transit+RV fit from exoplanet, which can be can be recreated by running transit/fittransitrv.py.
+Notes:
+
+* Scripts to reproduce Figures 10-12 require the trace output of the joint transit+RV fit from [exoplanet](https://docs.exoplanet.codes/en/latest/), which can be can be recreated by running transit/fittransitrv.py
+* Radial velocities from ESPRESSO and CORALIE in transit/data/rvs/ are from [Damasso et al. 2020](https://ui.adsabs.harvard.edu/abs/2020A%26A...642A..31D/abstract), please cite the paper when using the data.
