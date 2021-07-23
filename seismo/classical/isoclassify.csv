@@ -1,0 +1,4 @@
+id_starname,teff,teff_err,logg,logg_err,feh,feh_err,parallax,parallax_err,vtmag,vtmag_err,btmag,btmag_err,ra,dec,band,dust,comments,dmag,dmag_err
+gammapav,6168,133,4.40,0.01,-0.66,0.09,0.10801,0.000106,4.276,0.009,4.783,0.014,321.61,-65.37,btmag,none,test,-99.,-99.
+zetatuc,5924,129,4.38,0.01,-0.21,0.09,0.11618,0.000133,4.286,0.009,4.900,0.014,5.02,-64.87,btmag,none,test,-99.,-99.
+pimen,5980,130,4.38,0.01,0.07,0.07,0.054683,0.000035,5.721,0.009,6.381,0.014,84.287,-80.47,btmag,none,test,-99.,-99.
