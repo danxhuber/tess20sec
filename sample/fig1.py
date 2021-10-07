@@ -31,6 +31,7 @@ colors=['#FF9408','#DC4D01','#00A9E0','#016795']
 
 #dat=ascii.read('sample/scatter10.csv')
 dat=ascii.read('data/scatter-all.csv')
+dat=ascii.read('data/scatter-all-fullsecs.csv')
 
 ix,un=np.unique(dat['ticids'],return_index=True)
 dat=dat[un]
@@ -68,7 +69,7 @@ plt.annotate("(b)", xy=(0.05, 0.82), xycoords="axes fraction",fontsize=24,color=
 
 plt.subplots_adjust(wspace=0.20,hspace=0.26,left=0.155,right=0.97,bottom=0.08,top=0.98)
 
-plt.savefig('fig1.png',dpi=150)
+#plt.savefig('fig1.png',dpi=150)
 
 
 #plt.savefig('fig-hrd-all-v2.png',dpi=150)
