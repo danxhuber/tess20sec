@@ -41,16 +41,16 @@ def getnoise(data1,data2):
 	
 	# bitmasks as defined in lightkurve
 	#bitmask=175 		# default
-	bitmask=1263 		# default + CR flags only
+	#bitmask=1263 		# default + CR flags only
 	#bitmask = 3311		# hard
-	#bitmask = 4095		# hardest 
+	bitmask = 4095		# hardest 
 	
 	
 	quality_mask = (qflag2 & bitmask) == 0
 	um=np.where((quality_mask == True) & (np.isfinite(flux2)))[0]
 	
 	# hardest bitmask in lightkurve
-	#um=np.where((qflag2 == 0)  & (np.isfinite(flux2)))[0]
+	um=np.where((qflag2 == 0)  & (np.isfinite(flux2)))[0]
 	
 	# hardest plus cosmic ray flags
 	#um=np.where(((qflag2 == 0) | (qflag2 == 64) | (qflag2 == 1024))  & (np.isfinite(flux2)))[0]
@@ -68,8 +68,11 @@ def getnoise(data1,data2):
 	#print(np.unique(qflag2[um]))
 	#print(' ')
 
+	quality_mask = (qflag1 & bitmask) == 0
+	um=np.where((quality_mask == True) & (np.isfinite(flux1)))[0]
+
 	# hardest bitmask in lightkurve	
-	#um=np.where((qflag1 == 0)  & (np.isfinite(flux1)))[0]
+	um=np.where((qflag1 == 0)  & (np.isfinite(flux1)))[0]
 	
 	# hardest plus cosmic ray flags	
 	#um=np.where(((qflag1 == 0) | (qflag1 == 64) | (qflag1 == 1024))  & (np.isfinite(flux1)))[0]
@@ -79,9 +82,6 @@ def getnoise(data1,data2):
 
 	# default bitmask in lightkurve
 	#um=np.where((qflag1 != 1) & (qflag1 != 2) & (qflag1 != 4) & (qflag1 != 8) & (qflag1 != 32) & (qflag1 != 128)  & (np.isfinite(flux1)))[0]
-
-	quality_mask = (qflag1 & bitmask) == 0
-	um=np.where((quality_mask == True) & (np.isfinite(flux1)))[0]
 
 	time1=time1[um]
 	flux1=flux1[um]/np.median(flux1[um])
@@ -239,28 +239,44 @@ for i in range(0,len(ticids)):
 
 	print(ticids[i],i,len(ticids))
 
+	#if (ticids[i] != 141186075):
+	#	continue
+
 	fast=glob.glob('../mastDownload/*/*/*s00*'+str(ticids[i])+'*fast*')
 	slow=glob.glob('../mastDownload/*/*/*s00*'+str(ticids[i])+'*s_lc*')
 	
-	if (len(fast) != len(slow)):
-		#pdb.set_trace()
-		continue
+	secs_fast=np.zeros(len(fast),dtype='int')
+	secs_slow=np.zeros(len(slow),dtype='int')
+	
+	for r in range(0,len(secs_fast)):
+		tmp=fast[r].split('-')[1]
+		secs_fast[r]=np.float(tmp[1:5])
+	for r in range(0,len(secs_slow)):
+		tmp=slow[r].split('-')[1]
+		secs_slow[r]=np.float(tmp[1:5])
+
+	#if (len(fast) != len(slow)):
+	#	pdb.set_trace()
+	#	continue
 		
-	if ((len(fast) > 1) | (len(slow) > 1)):
-		fast=np.sort(fast)
-		slow=np.sort(slow)
+	#if ((len(fast) > 1) | (len(slow) > 1)):
+	#	fast=np.sort(fast)
+	#	slow=np.sort(slow)
 	
 	#if ((len(fast) < 2) | (len(slow) < 2)):
 	#	continue
-
-	print(fast)
-	print(slow)	
+	
+	print(secs_fast)
+	print(secs_slow)	
 	
 	#input(':')
 	for j in range(0,len(fast)):
 		try:
-			x1=fits.open(fast[j])
-			x2=fits.open(slow[j])
+			print('sector',secs_fast[j])
+			um=np.where(secs_fast == secs_fast[j])[0]
+			x1=fits.open(fast[um[0]])
+			um=np.where(secs_slow == secs_fast[j])[0]
+			x2=fits.open(slow[um[0]])
 		except:
 			continue
 		data1=x1[1].data
@@ -321,7 +337,7 @@ for i in range(0,len(ticids)):
 	flux=flux/(smoothed_flux)
 	'''
 
-ascii.write([np.asarray(tics,dtype='int'),tmags,teffs,rads,secs,slow_2min,slow_30min,fast_2min,fast_30min],'scatter-all-defaultpluscr.csv',names=['ticids','tmags','teff','rad','sec','slow_2min','slow_1hr','fast_2min','fast_1hr'],delimiter=',',formats={'ticids':'%i', 'tmags':'%8.3f', 'teff':'%8.0f', 'rad':'%8.3f', 'sec':'%i', 'slow_2min':'%8.3f', 'slow_1hr':'%8.3f', 'fast_2min':'%8.3f', 'fast_1hr':'%8.3f'})
+ascii.write([np.asarray(tics,dtype='int'),tmags,teffs,rads,secs,slow_2min,slow_30min,fast_2min,fast_30min],'scatter-all-fullsecs.csv',names=['ticids','tmags','teff','rad','sec','slow_2min','slow_1hr','fast_2min','fast_1hr'],delimiter=',',formats={'ticids':'%i', 'tmags':'%8.3f', 'teff':'%8.0f', 'rad':'%8.3f', 'sec':'%i', 'slow_2min':'%8.3f', 'slow_1hr':'%8.3f', 'fast_2min':'%8.3f', 'fast_1hr':'%8.3f'})
 
 	
 plt.ion()
