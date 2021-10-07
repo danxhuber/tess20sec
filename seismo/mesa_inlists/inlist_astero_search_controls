@@ -1,0 +1,11 @@
+&astero_search_controls 
+   
+         read_extra_astero_search_inlist1 = .true.
+         extra_astero_search_inlist1_name = 'inlist_astero_search_controls_gam_pav'
+
+/ ! end astero_search_controls
+
+
+&astero_pgstar_controls
+/ ! end astero_pgstar_controls
+
