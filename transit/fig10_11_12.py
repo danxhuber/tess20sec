@@ -806,7 +806,7 @@ fig = plt.figure(figsize=(7, 8))
 plt.clf()
 plt.subplot(2,1,1)
 
-rve=np.sqrt((rv_err**2) + np.median(trace['jitter'])**2)
+rve=np.sqrt((rv_err**2) + np.median(np.exp(trace['jitter']),axis=0)**2)
 
 detrended = rv - np.median(trace["vrad"][:,:,1],axis=0) - np.median(trace["rvmean"],axis=0) - np.median(trace["bkg"],axis=0)
 rvmod =  trace["vrad_pred"][:,:,0]

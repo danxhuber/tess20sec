@@ -55,7 +55,7 @@ plt.plot(dat['p'],dat['rp'],'o',color='grey')
 
 plt.fill_between(parr,10**mody2,10**mody3,alpha=0.3,label='Seismic Radius Valley',color=colors[0])
 
-plt.plot(p,rp,'o',color=colors[1],label='$\pi$ Men c (This Work)')
+plt.plot(p,rp,'^',color=colors[1],label='$\pi$ Men c (This Work)')
 #plt.plot(parr,10**mody,lw=35,alpha=0.5)
 
 plt.fill_between([p-0.2,p+0.25],[1.98,1.98],[2.19,2.19],alpha=0.5,color=colors[3],
@@ -75,6 +75,9 @@ plt.yticks([1,2,3],labels=[1,2,3])
 plt.xticks([2,10,80],labels=[2,10,80])
 
 plt.tight_layout(pad=0.4)
+
+
+plt.savefig('fig13_2.png',dpi=200)
 
 plt.savefig('fig13.png',dpi=200)
 

@@ -449,7 +449,7 @@ input(':')
 # sample or load trace from previous run
 np.random.seed(888)
 with model:
-	trace = pm.load_trace('transit/trace_transitplusrv_210507')
+	trace = pm.load_trace('trace_transitplusrv_210507')
     #trace = pmx.sample(tune=2500,draws=1500,start=map_soln,chains=4,initial_accept=0.9,target_accept=0.99)
 
 #pm.save_trace(trace,directory='trace_transitplusrv_210507',overwrite=True)
@@ -805,7 +805,8 @@ fig = plt.figure(figsize=(7, 8))
 plt.clf()
 plt.subplot(2,1,1)
 
-rve=np.sqrt((rv_err**2) + np.median(trace['jitter'])**2)
+rve=np.sqrt((rv_err**2) + np.median(np.exp(trace['jitter']),axis=0)**2)
+
 
 detrended = rv - np.median(trace["vrad"][:,:,1],axis=0) - np.median(trace["rvmean"],axis=0) - np.median(trace["bkg"],axis=0)
 rvmod =  trace["vrad_pred"][:,:,0]
@@ -840,8 +841,9 @@ ph=t_pred % period
 s=np.argsort(ph)
 #keep=np.where(rve < 2.)[0]
 
-keep=np.where(rve <= 5.)[0]
-plt.errorbar(t_rv[keep] % period, detrended[keep], yerr=rve[keep], fmt=".",color='grey',zorder=-32,alpha=0.3)
+#keep=np.where(rve <= 5.)[0]
+#plt.errorbar(t_rv[keep] % period, detrended[keep], yerr=rve[keep], fmt=".",color='grey',zorder=-32,alpha=0.3)
+plt.errorbar(t_rv % period, detrended, yerr=rve, fmt=".",color='grey',zorder=-32,alpha=0.3)
 
 keep=np.where(inst_id > 5.)[0]
 plt.errorbar(t_rv[keep] % period, detrended[keep], yerr=rve[keep], fmt=".",color='grey',zorder=-32)
@@ -853,9 +855,9 @@ plt.ylabel("Radial Velocity (m/s)")
 plt.xlim(0,period)
 plt.ylim(-6,7)
 
-plt.subplots_adjust(wspace=0.20,hspace=0.24,left=0.15,right=0.98,bottom=0.07,top=0.99)
+plt.subplots_adjust(wspace=0.20,hspace=0.24,left=0.15,right=0.98,bottom=0.08,top=0.99)
 
-plt.savefig('plots_paper/fig11.png',dpi=200)
+plt.savefig('fig11.png',dpi=200)
 
 
 

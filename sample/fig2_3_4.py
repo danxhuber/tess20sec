@@ -2,7 +2,6 @@ import numpy as np
 import os, sys
 from astropy.io import ascii, fits
 import matplotlib.pyplot as plt
-import pandas as pd
 from astropy.convolution import convolve, Gaussian1DKernel, Box1DKernel
 import glob, pdb
 from scipy.signal import savgol_filter as savgol
@@ -141,6 +140,8 @@ alf3=0.4
 lowm=5
 mss=3
 ls=10
+lowm=5
+upm=16.5
 
 tmagarr=np.arange(lowm,16,0.1)
 
@@ -159,12 +160,16 @@ plt.semilogy(dat['tmags'][upn],dat['fast_2min'][upn],'o',color='grey',label='',a
 plt.semilogy(dat['tmags'][lon],dat['fast_2min'][lon],'o',label='20s binned to 2m',color=colors[2],alpha=alf,fillstyle='none',ms=mss)
 plt.semilogy(dat['tmags'][lon],dat['slow_2min'][lon],'D',label='2m',color=colors[1],alpha=alf,fillstyle='none',ms=mss)
 plt.ylabel("Time-Domain Scatter (ppm)")
-plt.xlim([lowm,16])
+plt.xlim([lowm,upm])
 plt.ylim([10,1e5])
 plt.annotate("(a)", xy=(0.05, 0.85), xycoords="axes fraction",fontsize=24,color='black')
 lgnd2 = plt.legend(loc='lower right',numpoints=1,handletextpad=0.25,prop={'size':16},handlelength=1.0)
 lgnd2.legendHandles[0]._legmarker.set_markersize(ls)
 lgnd2.legendHandles[1]._legmarker.set_markersize(ls)
+
+
+plt.plot([6.6],[226.6],'*',color=colors[1],ms=12)
+plt.plot([6.6],[175.4],'*',color=colors[2],ms=12)
 
 
 plt.subplot(2,2,3)
@@ -187,8 +192,11 @@ plt.plot([lowm,20],[1,1],ls='dashed',color=colors[1],lw=3,alpha=alf2)
 plt.ylabel("Scatter$_{20s}$/Scatter$_{2m}$")
 plt.xlabel("TESS Magnitude")
 plt.ylim([0.55,1.2])
-plt.xlim([lowm,16])
+plt.xlim([lowm,upm])
 plt.annotate("(c)", xy=(0.05, 0.85), xycoords="axes fraction",fontsize=24,color='black')
+
+#hi=np.where(dat['ticids'] == 300038935)
+#plt.plot(np.mean(dat['tmags'][hi]),np.mean(dat['fast_2min'][hi]/dat['slow_2min'][hi]),'*',color='red',ms=12)
 
 '''
 xdat=dat['tmags'][lon]
@@ -215,7 +223,7 @@ plt.plot(dat['tmags'][lon],dat['fast_1hr'][lon],'o',label='20s binned to 1h',col
 plt.semilogy(dat['tmags'][lon],dat['slow_1hr'][lon],'D',label='2m binned to 1h',color=colors[1],alpha=alf,fillstyle='none',ms=mss)
 plt.annotate("(b)", xy=(0.05, 0.85), xycoords="axes fraction",fontsize=24,color='black')
 plt.ylabel("Time-Domain Scatter (ppm)")
-plt.xlim([lowm,16])
+plt.xlim([lowm,upm])
 plt.ylim([10,1e5])
 lgnd2 = plt.legend(loc='lower right',numpoints=1,handletextpad=0.25,prop={'size':16},handlelength=1.0)
 lgnd2.legendHandles[0]._legmarker.set_markersize(ls)
@@ -239,7 +247,7 @@ plt.plot(binx,biny,'o',color='black',ms=10,mfc='none')
 plt.ylabel("Scatter$_{20s}$/Scatter$_{2m}$")
 plt.xlabel("TESS Magnitude")
 plt.ylim([0.55,1.2])
-plt.xlim([lowm,16])
+plt.xlim([lowm,upm])
 plt.annotate("(d)", xy=(0.05, 0.85), xycoords="axes fraction",fontsize=24,color='black')
 
 #plt.tight_layout(pad=0.5,h_pad=0.5,w_pad=1.5)
@@ -293,13 +301,13 @@ xdat=xdat[um]
 ydat=ydat[um]
 
 lon=np.where((dat['fast_2min_part2'] < noisevals) & (dat['slow_2min_part2'] < noisevals))[0]
-plt.plot(dat['tmags'][lon],dat['fast_2min_part2'][lon]/dat['slow_2min_part2'][lon],'.',label='',color=colors[3],alpha=0.2)
+plt.plot(dat['tmags'][lon],dat['fast_2min_part2'][lon]/dat['slow_2min_part2'][lon],'.',label='',color=colors[3],alpha=0.4)
 
 bs=np.arange(5.5,17.5,1)
 binx,biny,binz=bin_set(xdat,ydat,bs)
 #plt.errorbar(binx,biny,yerr=binz,fmt='-o',color='crimson',ms=10)
 #plt.plot(binx,biny,'-o',color='blue')
-plt.plot(dat['tmags'][lon],dat['fast_2min_part1'][lon]/dat['slow_2min_part1'][lon],'.',label='',color=colors[0],alpha=0.2)
+plt.plot(dat['tmags'][lon],dat['fast_2min_part1'][lon]/dat['slow_2min_part1'][lon],'.',label='',color=colors[0],alpha=0.4)
 plt.plot(binx,biny,color='black',lw=3)
 plt.errorbar(binx,biny,yerr=binz,fmt='.',color=colors[0])
 plt.plot(binx,biny,'-o',color=colors[0],ms=10,label='Sector 34, Orbit 1')
@@ -325,7 +333,7 @@ plt.plot([5,20],[1,1],ls='dashed',color=colors[1],lw=3,alpha=alf2)
 plt.ylabel("Scatter$_{20s}$/Scatter$_{2m}$")
 plt.xlabel("TESS Magnitude")
 plt.ylim([0.6,1.1])
-plt.xlim([5,16])
+plt.xlim([lowm,upm])
 plt.legend(loc='lower right')
 #plt.tight_layout()
 plt.subplots_adjust(left=0.13,right=0.97,bottom=0.14,top=0.96)
@@ -359,12 +367,12 @@ plt.plot(dat['tmags'],dat['hardest']/dat['hard'],'.',color=colors[3],alpha=alf)
 plt.plot(dat2['tmags'],dat2['hardest']/dat2['hard'],'.',color=colors[0],alpha=alf)
 binx,biny,binz=bin_set(dat['tmags'],dat['hardest']/dat['hard'],bs)
 plt.plot(binx,biny,color='black',lw=3)
-plt.plot(binx,biny,'-o',color=colors[3],ms=10,label='20sec')
-plt.plot(binx,biny,'o',color='black',ms=10,mfc='none')
+plt.plot(binx,biny,'-^',color=colors[3],ms=10,label='20sec')
+plt.plot(binx,biny,'^',color='black',ms=10,mfc='none')
 binx,biny,binz=bin_set(dat2['tmags'],dat2['hardest']/dat2['hard'],bs)
 plt.plot(binx,biny,color='black',lw=3)
-plt.plot(binx,biny,'-^',color=colors[0],ms=10,label='2min')
-plt.plot(binx,biny,'^',color='black',ms=10,mfc='none',lw=2)
+plt.plot(binx,biny,'-o',color=colors[0],ms=10,label='2min')
+plt.plot(binx,biny,'o',color='black',ms=10,mfc='none',lw=2)
 plt.ylim([0,2])
 plt.plot([1,20],[1,1],color=colors[1],ls='dashed',lw=lws,alpha=alf2)
 plt.ylabel('$\sigma_{Hardest}$/$\sigma_{Hard}$')
@@ -378,12 +386,12 @@ plt.plot(dat['tmags'],dat['hardest']/dat['default'],'.',color=colors[3],alpha=al
 plt.plot(dat2['tmags'],dat2['hardest']/dat2['default'],'.',color=colors[0],alpha=alf)
 binx,biny,binz=bin_set(dat['tmags'],dat['hardest']/dat['default'],bs)
 plt.plot(binx,biny,color='black',lw=3)
-plt.plot(binx,biny,'-o',color=colors[3],ms=10)
-plt.plot(binx,biny,'o',color='black',ms=10,mfc='none')
+plt.plot(binx,biny,'-^',color=colors[3],ms=10)
+plt.plot(binx,biny,'^',color='black',ms=10,mfc='none')
 binx,biny,binz=bin_set(dat2['tmags'],dat2['hardest']/dat2['default'],bs)
 plt.plot(binx,biny,color='black',lw=3)
-plt.plot(binx,biny,'-^',color=colors[0],ms=10)
-plt.plot(binx,biny,'^',color='black',ms=10,mfc='none')
+plt.plot(binx,biny,'-o',color=colors[0],ms=10)
+plt.plot(binx,biny,'o',color='black',ms=10,mfc='none')
 plt.ylim([0,2])
 plt.plot([1,20],[1,1],color=colors[1],ls='dashed',lw=lws,alpha=alf2)
 plt.ylabel('$\sigma_{Hardest}$/$\sigma_{Default}$')
@@ -396,12 +404,12 @@ plt.plot(dat['tmags'],dat['hard']/dat['default'],'.',color=colors[3],alpha=alf)
 plt.plot(dat2['tmags'],dat2['hard']/dat2['default'],'.',color=colors[0],alpha=alf)
 binx,biny,binz=bin_set(dat['tmags'],dat['hard']/dat['default'],bs)
 plt.plot(binx,biny,color='black',lw=3)
-plt.plot(binx,biny,'-o',color=colors[3],ms=10)
-plt.plot(binx,biny,'o',color='black',ms=10,mfc='none')
+plt.plot(binx,biny,'-^',color=colors[3],ms=10)
+plt.plot(binx,biny,'^',color='black',ms=10,mfc='none')
 binx,biny,binz=bin_set(dat2['tmags'],dat2['hard']/dat2['default'],bs)
 plt.plot(binx,biny,color='black',lw=3)
-plt.plot(binx,biny,'-^',color=colors[0],ms=10)
-plt.plot(binx,biny,'^',color='black',ms=10,mfc='none')
+plt.plot(binx,biny,'-o',color=colors[0],ms=10)
+plt.plot(binx,biny,'o',color='black',ms=10,mfc='none')
 plt.xlim([lowm,upm])
 plt.ylim([ll,ul])
 plt.xlabel('TESS Magnitude')
@@ -417,6 +425,10 @@ plt.savefig('fig4.png',dpi=150)
 #plt.savefig('../plots_paper/test2.png',dpi=150)
 
 
+#plt.clf()
+#plt.plot(dat['tmags'],dat['hardest']/dat2['hardest'],'o')
+#plt.ylim([0.55,1.2])
+#plt.xlim([lowm,upm])
 
 
 

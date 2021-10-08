@@ -31,10 +31,13 @@ colors=['#FF9408','#DC4D01','#00A9E0','#016795']
 
 #dat=ascii.read('sample/scatter10.csv')
 dat=ascii.read('data/scatter-all.csv')
-dat=ascii.read('data/scatter-all-fullsecs.csv')
+#dat=ascii.read('data/scatter-all-fullsecs.csv')
 
 ix,un=np.unique(dat['ticids'],return_index=True)
 dat=dat[un]
+
+um=np.where(dat['teff'] < 8000.)[0]
+print(len(um),'unique stars with Teff < 8000K')
 
 plt.ion()
 plt.clf()
