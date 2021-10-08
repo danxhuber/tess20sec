@@ -76,9 +76,6 @@ plt.xticks([2,10,80],labels=[2,10,80])
 
 plt.tight_layout(pad=0.4)
 
-
-plt.savefig('fig13_2.png',dpi=200)
-
 plt.savefig('fig13.png',dpi=200)
 
 
