@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5555456.svg)](https://doi.org/10.5281/zenodo.5555456)
+
 # TESS 20-second cadence data
 
 Data and scripts to reproduce results for the paper "A 20-second Cadence View of Solar-Type Stars and Their Planets with TESS: Asteroseismology of Solar Analogs and a Re-characterization of pi Men c" ([Huber et al. 2021](https://ui.adsabs.harvard.edu/abs/2021arXiv210809109H/abstract)).
